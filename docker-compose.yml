@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+  nginx:
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    container_name: nginx_crt
+    volumes:
+      - ./docker/certs/server.crt:/etc/nginx/certs/server.crt
+      - ./docker/certs/server.key:/etc/nginx/certs/server.key
+      - ./docker/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/html:/etc/nginx/html
+    networks:
+      nginx_crt_network:
+        ipv4_address: 172.23.0.2
+
+networks:
+  nginx_crt_network:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.23.0.0/16
